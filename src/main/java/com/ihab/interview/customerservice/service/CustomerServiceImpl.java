@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -24,7 +25,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void addCustomer(Customer customer) {
+    public Customer findByID(UUID id) {
+        return customerRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public void updateCustomer(Customer customer) {
         customerRepository.save(customer);
+    }
+
+    @Override
+    public void deleteCustomer(UUID id) {
+        customerRepository.deleteById(id);
     }
 }
