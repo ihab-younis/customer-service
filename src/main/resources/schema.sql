@@ -1,4 +1,4 @@
-/*If i would like to you the schema instead of auto generating the tables from the entities*/
+/*If i would like to initialize the schema instead of auto generating the tables from the entities*/
 /*create table student
 (
     id uuid not null,
