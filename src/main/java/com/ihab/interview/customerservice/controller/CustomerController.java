@@ -11,8 +11,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/customer/v1")
 public class CustomerController {
+
+    private final CustomerService customerService;
+
     @Autowired
-    private CustomerService customerService;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping("/all")
     public List<Customer> findAll() {
@@ -26,7 +31,7 @@ public class CustomerController {
 
     /**
      * Used for adding and updating customer row on DB
-     * @param customer
+     * @param customer customer entity
      */
     @PutMapping
     public void updateCustomer(@RequestBody Customer customer) {
