@@ -1,7 +1,5 @@
 package com.ihab.interview.customerservice.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.ihab.interview.customerservice.IntegrationTest;
 import com.ihab.interview.customerservice.data.Customer;
 import com.ihab.interview.customerservice.repository.CustomerRepository;
@@ -37,23 +35,20 @@ public class CustomerControllerIntegrationTest extends IntegrationTest {
     @Test
     public void testFindCustomerById() throws Exception{
         Customer customer = initCustomer();
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(customer);
         UUID id = customer.getId();
+        String customerJson = getJson(customer);
         Mockito.when(customerRepository.findById(id)).thenReturn(Optional.of(customer));
 
         client.perform(get(FIND_CUSTOMER_BY_ID_URI+"?id="+id))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json));
+                .andExpect(content().json(customerJson));
     }
 
     @Test
     public void testUpdateCustomer() throws Exception{
-        Customer customer = initCustomer();
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(customer);
+        String customerJson = getJson(initCustomer());
 
-        client.perform(put(UPDATE_CUSTOMER_URI).contentType(MediaType.APPLICATION_JSON).content(json))
+        client.perform(put(UPDATE_CUSTOMER_URI).contentType(MediaType.APPLICATION_JSON).content(customerJson))
                 .andExpect(status().isOk());
     }
 
